@@ -25,6 +25,8 @@ If a username is validated:
 
 ## Build
 
+Note: use Go 1.12 - https://github.com/protosam/go-libnss/issues/7
+
     CGO_CFLAGS="-g -O2 -D __LIB_NSS_NAME=external" go build --buildmode=c-shared -o libnss_external.so.2 nss-external.go
 
 ## Config
