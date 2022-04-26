@@ -1,24 +1,27 @@
-# Gonss
+# nss-shim
 
-## About
+** work in progress **
 
-Linux nss module to create some users when requesting info about them
-(on ssh, id, etc.).
+Linux NSS module to create users on-demand when information is requested about them via services like ssh, id, and so on.
 
-If user matches suffix, then user is created with no password
-(not empty but password not allowed) and assign them to specified group.
-A home directory is also created.
+Forked from [osallou/nss-external](https://github.com/osallou/nss-external).
 
-Reads its configuration from nss_external.conf
+## Motivation
 
-As no password is set, login as user must be allowed/forbidden by PAM
-modules/config (ssh key, custom auth, ...)
+Even with custom PAM modules and AuthorizedKeysCommand configured, OpenSSH requires users to exist already (via NSS) before PAM is used for authentication. Thus, users cannot be created dynamically on SSH session setup with PAM alone - an NSS shim is also required.
 
-This library has been created to learn about nss/pam while doing some tests
-with OpenSSH. Indeed, even with custom PAM modules, OpenSSH requires to get
-an existing user (with nss stuff) before calling PAM modules to check for
-auth, set session etc... So it means that users cannot be created
-dynamically on SSH session setup.
+## Details
+
+- Configuration is read from nss_external.conf
+- As no password is set, user auth must be performed by PAM or a service like SSH after NSS
+
+## Flow
+
+If a username is validated:
+
+1. A corresponding local user account is created with no password (not empty, but set to block password login entirely)
+2. The user is assigned to the specified group
+3. A home directory is created.
 
 ## Build
 
@@ -26,7 +29,7 @@ dynamically on SSH session setup.
 
 ## Config
 
-Setup in /etc/nss_external.conf
+Create `/etc/nss_external.conf`:
 
     users: []
     nss:
@@ -37,12 +40,8 @@ Setup in /etc/nss_external.conf
     bash: "/bin/bash"
     home: "/home/external/%s"
 
-Update /etc/nsswitch.conf
+Update `/etc/nsswitch.conf`:
 
     passwd:         compat external
     group:          compat
     shadow:         compat external
-
-## License
-
-Apache 2.0
