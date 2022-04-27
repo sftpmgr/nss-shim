@@ -1,6 +1,6 @@
 # nss-shim
 
-** work in progress **
+** work in progress - see Actions for latest artifacts **
 
 Linux NSS module to create users on-demand when information is requested about them via services like ssh, id, and so on.
 
