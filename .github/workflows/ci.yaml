@@ -24,6 +24,7 @@ jobs:
           ls -lah
           go version
           go get github.com/protosam/go-libnss
+          go get gopkg.in/yaml.v2
       - name: build
         run: |
           CGO_CFLAGS="-g -O2 -D __LIB_NSS_NAME=external" go build --buildmode=c-shared -o libnss_external.so.2 nss-external.go
