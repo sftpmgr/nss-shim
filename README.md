@@ -1,6 +1,7 @@
 # nss-shim
 
-** work in progress - see Actions for latest artifacts **
+** Archived - one of the critical libraries is no longer maintained. See https://github.com/protosam/go-libnss/issues/7#issuecomment-1116764199 **
+
 
 Linux NSS module to create users on-demand when information is requested about them via services like ssh, id, and so on.
 
